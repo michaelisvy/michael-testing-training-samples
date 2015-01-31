@@ -9,27 +9,27 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.weather.WeatherService;
+import com.weather.WeatherServiceImpl;
 
 public class JUnitAssertTest {
-	private WeatherService weatherService;
+	private WeatherServiceImpl weatherServiceImpl;
 	
 	public JUnitAssertTest() {
-		weatherService = new WeatherService();
+		weatherServiceImpl = new WeatherServiceImpl();
 		// TODO: inject it using Spring
 	}
 	
 	@Test
 	public void shouldVerifyIntsByValidatingCurrentTemperatureOfCity() {
 		String city = "singapore";
-		int temperature = this.weatherService.findCurrentTemperature(city);
+		int temperature = this.weatherServiceImpl.findCurrentTemperature(city);
 		assertSame(temperature, 30);
 	}
 	
 	@Test
 	public void shouldVerifyFloatsByValidatingCurrentTemperatureOfCity() {
 		String city = "singapore";
-		double temperature = this.weatherService.findCurrentTemperatureDecimal(city);
+		double temperature = this.weatherServiceImpl.findCurrentTemperatureDecimal(city);
 		assertEquals(temperature, 25.3357, 0.0001); //not fluent. How do I know that 3rd element is delta?
 													// comparing 25.3357 versus 25.3356
 	}
@@ -37,7 +37,7 @@ public class JUnitAssertTest {
 	@Test
 	public void shouldVerifyThatArrayContainsSpecificValue() {
 		String city = "singapore";
-		Double[] temperatures = this.weatherService.findDayTemperaturesArray(city);
+		Double[] temperatures = this.weatherServiceImpl.findDayTemperaturesArray(city);
 		
 		Double expectedTemperature = 25.0;
 		
@@ -56,7 +56,7 @@ public class JUnitAssertTest {
 	@Test
 	public void shouldVerifyThatCollectionContainsSpecificValue() {
 		String city = "singapore";
-		List<Double> temperatures = this.weatherService.findDayTemperaturesList(city);
+		List<Double> temperatures = this.weatherServiceImpl.findDayTemperaturesList(city);
 		
 		Double expectedTemperature = 25.0;
 		assertTrue(temperatures.contains(expectedTemperature));	// fluent enough but limited to one value
@@ -67,7 +67,7 @@ public class JUnitAssertTest {
 	@Test(expected=IllegalStateException.class)
 	public void shouldThrowExceptionForCityNotFound() {	
 			String city = "cityDoesNotExist";
-			this.weatherService.findCurrentTemperature(city);
+			this.weatherServiceImpl.findCurrentTemperature(city);
 	}
 
 	

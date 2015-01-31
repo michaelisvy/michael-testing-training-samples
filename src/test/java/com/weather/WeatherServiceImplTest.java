@@ -1,13 +1,9 @@
-package assertion.junit.hamcrest;
+package com.weather;
 
-import static org.hamcrest.MatcherAssert.assertThat; //only one assert method: assertThat
-import static org.hamcrest.Matchers.arrayContaining;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasItemInArray;
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.is; //Eclipse shows as deprecated but it's fine
-import static org.hamcrest.number.IsCloseTo.closeTo;
+
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.within;
 
 import java.util.List;
 
@@ -15,10 +11,10 @@ import org.junit.Test;
 
 import com.weather.WeatherServiceImpl;
 
-public class HamcrestTest {
+public class WeatherServiceImplTest {
 	private WeatherServiceImpl weatherServiceImpl;
 	
-	public HamcrestTest() {
+	public WeatherServiceImplTest() {
 		weatherServiceImpl = new WeatherServiceImpl();
 		// TODO: inject it using Spring
 	}
@@ -27,16 +23,14 @@ public class HamcrestTest {
 	public void shouldValidateCurrentTemperatureOfCity() {
 		String city = "singapore";
 		int temperature = this.weatherServiceImpl.findCurrentTemperature(city);
-		assertThat(temperature, equalTo(30));
+		assertThat(temperature).isEqualTo(30);
 	}
 	
 	@Test
 	public void shouldTestVariousAssertWaysToValidateCurrentTemperatureOfCity() {
 		String city = "singapore";
 		int temperature = this.weatherServiceImpl.findCurrentTemperature(city);
-		assertThat(temperature, equalTo(30));
-		assertThat(temperature, is(30));
-		assertThat(temperature, is(equalTo(30)));
+		assertThat(temperature).isEqualTo(30);
 	}
 	
 	@Test(expected=IllegalStateException.class)
@@ -49,8 +43,8 @@ public class HamcrestTest {
 	public void shouldCompareFloatsByValidatingCurrentTemperatureOfCity() {
 		String city = "singapore";
 		double temperature = this.weatherServiceImpl.findCurrentTemperatureDecimal(city);
-		assertThat(temperature, equalTo(25.3356)); 
-		assertThat(temperature, closeTo(25.3356, 0.0001));
+		assertThat(temperature).isEqualTo(25.3356);
+		assertThat(temperature).isCloseTo(25.3356, within(0.0001));
 		//still not that fluent (I need to know that second param is error)
 		
 	}
@@ -60,10 +54,10 @@ public class HamcrestTest {
 		String city = "singapore";
 		Double[] temperatures = this.weatherServiceImpl.findDayTemperaturesArray(city);
 		
-		assertThat(temperatures, hasItemInArray(25.0)); // easy to check for one element
+		assertThat(temperatures).contains(25.0); // easy to check for one element
 														// no method for just 2 elements out of 5
 		
-		assertThat(temperatures,arrayContaining(25.0, 28.0, 29.0)); // ok for all elements in a table
+		assertThat(temperatures).contains(25.0, 28.0, 29.0); // ok for all elements in a table
 		
 		
 	}
@@ -73,8 +67,8 @@ public class HamcrestTest {
 		String city = "singapore";
 		List<Double> temperaturesList = this.weatherServiceImpl.findDayTemperaturesList(city);
 		
-		assertThat(temperaturesList,hasItems(25.0, 28.0));	// I can specify some elements only
-		assertThat(temperaturesList,contains(25.0, 28.0, 29.0)); // I should specify all elements
+		assertThat(temperaturesList).contains(25.0, 28.0);	// I can specify some elements only
+		assertThat(temperaturesList).contains(25.0, 28.0, 29.0); // I should specify all elements
 	}
 
 	

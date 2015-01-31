@@ -6,27 +6,27 @@ import java.util.List;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.weather.WeatherService;
+import com.weather.WeatherServiceImpl;
 
 public class TestNGAssertTest {
-	private WeatherService weatherService;
+	private WeatherServiceImpl weatherServiceImpl;
 	
 	public TestNGAssertTest() {
-		weatherService = new WeatherService();
+		weatherServiceImpl = new WeatherServiceImpl();
 		// TODO: inject it using Spring
 	}
 	
 	@Test
 	public void shouldVerifyIntsByValidatingCurrentTemperatureOfCity() {
 		String city = "singapore";
-		int temperature = this.weatherService.findCurrentTemperature(city);
+		int temperature = this.weatherServiceImpl.findCurrentTemperature(city);
 		Assert.assertSame(temperature, 30); // API is not fluent
 	}
 	
 	@Test
 	public void shouldVerifyFloatsByValidatingCurrentTemperatureOfCity() {
 		String city = "singapore";
-		double temperature = this.weatherService.findCurrentTemperatureDecimal(city);
+		double temperature = this.weatherServiceImpl.findCurrentTemperatureDecimal(city);
 		Assert.assertEquals(temperature, 25.3357, 0.0001); //not fluent. How do I know that 3rd element is delta?
 													// comparing 25.3357 versus 25.3356
 	}
@@ -34,7 +34,7 @@ public class TestNGAssertTest {
 	@Test
 	public void shouldVerifyThatArrayContainsSpecificValue() {
 		String city = "singapore";
-		Double[] temperatures = this.weatherService.findDayTemperaturesArray(city);
+		Double[] temperatures = this.weatherServiceImpl.findDayTemperaturesArray(city);
 		
 		Double expectedTemperature = 25.0;
 		
@@ -53,7 +53,7 @@ public class TestNGAssertTest {
 	@Test
 	public void shouldVerifyThatCollectionContainsSpecificValue() {
 		String city = "singapore";
-		List<Double> temperatures = this.weatherService.findDayTemperaturesList(city);
+		List<Double> temperatures = this.weatherServiceImpl.findDayTemperaturesList(city);
 		
 		Double expectedTemperature = 25.0;
 		Assert.assertTrue(temperatures.contains(expectedTemperature));	// fluent enough but limited to one value
@@ -64,7 +64,7 @@ public class TestNGAssertTest {
 	@Test(expectedExceptions=IllegalStateException.class) // can declare exceptions on top
 	public void shouldThrowExceptionForCityNotFound() {	
 			String city = "cityDoesNotExist";
-			this.weatherService.findCurrentTemperature(city);
+			this.weatherServiceImpl.findCurrentTemperature(city);
 	}
 
 	
