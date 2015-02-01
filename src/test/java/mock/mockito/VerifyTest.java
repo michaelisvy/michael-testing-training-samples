@@ -19,16 +19,15 @@ public class VerifyTest {
 	@Test
 	public void shouldVerifyMethodHasBeenCalledTwice() throws Exception {
 		
-		// arrange
 		when(mock.findCurrentTemperature("singapore")).thenReturn(30);
 		
-		// act
 		int temperature = mock.findCurrentTemperature("singapore");
 		temperature = mock.findCurrentTemperature("singapore");
+		mock.findDayTemperaturesList("");
 		
-		// assert
-		verify(mock, times(2)).findCurrentTemperature("singapore"); 
 		// by default, verifies that method has been called only one time. We have specified 2 times instead
+		// Not checking that I have called "findDayTemperaturesList" and this is just fine
+		verify(mock, times(2)).findCurrentTemperature("singapore"); 
 		verify(mock, never()).findDayTemperaturesArray("");
 		assertThat(temperature).isEqualTo(30);
 		
